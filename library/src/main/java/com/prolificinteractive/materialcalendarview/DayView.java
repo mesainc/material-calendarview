@@ -22,6 +22,7 @@ import android.widget.CheckedTextView;
 
 import com.prolificinteractive.materialcalendarview.MaterialCalendarView.ShowOtherDates;
 import com.prolificinteractive.materialcalendarview.format.DayFormatter;
+import com.prolificinteractive.materialcalendarview.utils.FontUtils;
 
 import java.util.List;
 
@@ -64,6 +65,9 @@ class DayView extends CheckedTextView {
         }
 
         setDay(day);
+
+        FontUtils.initFontUtils(context.getAssets(), context.getResources());
+        FontUtils.setTypeFace(R.string.font_futura_std_bold, this);
     }
 
     public void setDay(CalendarDay date) {
