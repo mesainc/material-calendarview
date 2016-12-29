@@ -38,9 +38,6 @@ public class BasicActivity extends AppCompatActivity implements OnDateSelectedLi
 
         widget.setOnDateChangedListener(this);
         widget.setOnMonthChangedListener(this);
-
-        //Setup initial text
-        textView.setText(getSelectedDatesString());
     }
 
     @Override

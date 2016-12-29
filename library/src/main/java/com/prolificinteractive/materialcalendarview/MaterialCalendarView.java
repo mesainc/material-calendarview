@@ -32,6 +32,7 @@ import com.prolificinteractive.materialcalendarview.format.DayFormatter;
 import com.prolificinteractive.materialcalendarview.format.MonthArrayTitleFormatter;
 import com.prolificinteractive.materialcalendarview.format.TitleFormatter;
 import com.prolificinteractive.materialcalendarview.format.WeekDayFormatter;
+import com.prolificinteractive.materialcalendarview.utils.FontUtils;
 
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
@@ -179,6 +180,7 @@ public class MaterialCalendarView extends ViewGroup {
     private CalendarDay currentMonth;
     private LinearLayout topbar;
     private CalendarMode calendarMode;
+
     /**
      * Used for the dynamic calendar height.
      */
@@ -223,7 +225,6 @@ public class MaterialCalendarView extends ViewGroup {
     private OnMonthChangedListener monthListener;
     private OnRangeSelectedListener rangeListener;
 
-
     CharSequence calendarContentDescription;
     private int accentColor = 0;
     private int arrowColor = Color.BLACK;
@@ -237,6 +238,9 @@ public class MaterialCalendarView extends ViewGroup {
     private int firstDayOfWeek;
 
     private State state;
+
+    private static int sSelectedFont;
+
 
     public MaterialCalendarView(Context context) {
         this(context, null);
@@ -257,7 +261,9 @@ public class MaterialCalendarView extends ViewGroup {
 
         buttonPast = new DirectionButton(getContext());
         buttonPast.setContentDescription(getContext().getString(R.string.previous));
+
         title = new TextView(getContext());
+
         buttonFuture = new DirectionButton(getContext());
         buttonFuture.setContentDescription(getContext().getString(R.string.next));
         pager = new CalendarPager(getContext());
@@ -310,12 +316,12 @@ public class MaterialCalendarView extends ViewGroup {
             }
 
             final int tileWidth = a.getLayoutDimension(R.styleable.MaterialCalendarView_mcv_tileWidth, INVALID_TILE_DIMENSION);
-            if(tileWidth > INVALID_TILE_DIMENSION){
+            if (tileWidth > INVALID_TILE_DIMENSION) {
                 setTileWidth(tileWidth);
             }
 
             final int tileHeight = a.getLayoutDimension(R.styleable.MaterialCalendarView_mcv_tileHeight, INVALID_TILE_DIMENSION);
-            if(tileHeight > INVALID_TILE_DIMENSION){
+            if (tileHeight > INVALID_TILE_DIMENSION) {
                 setTileHeight(tileHeight);
             }
 
@@ -600,8 +606,6 @@ public class MaterialCalendarView extends ViewGroup {
     }
 
     /**
-     * TODO should this be public?
-     *
      * @return true if there is a future month that can be shown
      */
     public boolean canGoForward() {
@@ -620,8 +624,6 @@ public class MaterialCalendarView extends ViewGroup {
     }
 
     /**
-     * TODO should this be public?
-     *
      * @return true if there is a previous month that can be shown
      */
     public boolean canGoBack() {
@@ -744,6 +746,14 @@ public class MaterialCalendarView extends ViewGroup {
      */
     public void setHeaderTextAppearance(int resourceId) {
         title.setTextAppearance(getContext(), resourceId);
+    }
+
+    public void setCalendarFont(int font) {
+        sSelectedFont = font;
+    }
+
+    public static int getSelectedFont() {
+        return sSelectedFont;
     }
 
     /**
@@ -1474,8 +1484,8 @@ public class MaterialCalendarView extends ViewGroup {
         final int selectedMonth = selectedDate.getMonth();
 
         if (calendarMode == CalendarMode.MONTHS
-            && allowClickDaysOutsideCurrentMonth
-            && currentMonth != selectedMonth) {
+                && allowClickDaysOutsideCurrentMonth
+                && currentMonth != selectedMonth) {
             if (currentDate.isAfter(selectedDate)) {
                 goToPrevious();
             } else if (currentDate.isBefore(selectedDate)) {

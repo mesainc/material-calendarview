@@ -10,6 +10,7 @@ import android.view.accessibility.AccessibilityNodeInfo;
 import com.prolificinteractive.materialcalendarview.MaterialCalendarView.ShowOtherDates;
 import com.prolificinteractive.materialcalendarview.format.DayFormatter;
 import com.prolificinteractive.materialcalendarview.format.WeekDayFormatter;
+import com.prolificinteractive.materialcalendarview.utils.FontUtils;
 
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -59,6 +60,7 @@ abstract class CalendarPagerView extends ViewGroup implements View.OnClickListen
             WeekDayView weekDayView = new WeekDayView(getContext(), CalendarUtils.getDayOfWeek(calendar));
             weekDayViews.add(weekDayView);
             addView(weekDayView);
+
             calendar.add(DATE, 1);
         }
     }
@@ -75,16 +77,21 @@ abstract class CalendarPagerView extends ViewGroup implements View.OnClickListen
 
     protected Calendar resetAndGetWorkingCalendar() {
         getFirstViewDay().copyTo(tempWorkingCalendar);
+
         //noinspection ResourceType
         tempWorkingCalendar.setFirstDayOfWeek(getFirstDayOfWeek());
         int dow = CalendarUtils.getDayOfWeek(tempWorkingCalendar);
         int delta = getFirstDayOfWeek() - dow;
+
         //If the delta is positive, we want to remove a week
         boolean removeRow = showOtherMonths(showOtherDates) ? delta >= 0 : delta > 0;
+
         if (removeRow) {
             delta -= DEFAULT_DAYS_IN_WEEK;
         }
+
         tempWorkingCalendar.add(DATE, delta);
+
         return tempWorkingCalendar;
     }
 
@@ -98,9 +105,11 @@ abstract class CalendarPagerView extends ViewGroup implements View.OnClickListen
 
     void setDayViewDecorators(List<DecoratorResult> results) {
         this.decoratorResults.clear();
+
         if (results != null) {
             this.decoratorResults.addAll(results);
         }
+
         invalidateDecorators();
     }
 
@@ -167,10 +176,25 @@ abstract class CalendarPagerView extends ViewGroup implements View.OnClickListen
     protected void updateUi() {
         for (DayView dayView : dayViews) {
             CalendarDay day = dayView.getDate();
-            dayView.setupSelection(
-                    showOtherDates, day.isInRange(minDate, maxDate), isDayEnabled(day));
+            dayView.setupSelection(showOtherDates, day.isInRange(minDate, maxDate), isDayEnabled(day));
+            applyCustomFont(dayView);
         }
+
+        for (WeekDayView weekDayView : weekDayViews){
+            applyCustomFont(weekDayView);
+        }
+
         postInvalidate();
+    }
+
+    private void applyCustomFont(DayView view){
+        FontUtils.initFontUtils(getContext().getAssets(), getContext().getResources());
+        FontUtils.setTypeFace(MaterialCalendarView.getSelectedFont(), view);
+    }
+
+    private void applyCustomFont(WeekDayView view){
+        FontUtils.initFontUtils(getContext().getAssets(), getContext().getResources());
+        FontUtils.setTypeFace(MaterialCalendarView.getSelectedFont(), view);
     }
 
     protected void invalidateDecorators() {
@@ -339,4 +363,5 @@ abstract class CalendarPagerView extends ViewGroup implements View.OnClickListen
             super(WRAP_CONTENT, WRAP_CONTENT);
         }
     }
+
 }
