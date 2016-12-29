@@ -177,11 +177,11 @@ abstract class CalendarPagerView extends ViewGroup implements View.OnClickListen
         for (DayView dayView : dayViews) {
             CalendarDay day = dayView.getDate();
             dayView.setupSelection(showOtherDates, day.isInRange(minDate, maxDate), isDayEnabled(day));
-            applyCustomFont(dayView);
+            //applyCustomFont(dayView);
         }
 
         for (WeekDayView weekDayView : weekDayViews){
-            applyCustomFont(weekDayView);
+            //applyCustomFont(weekDayView);
         }
 
         postInvalidate();

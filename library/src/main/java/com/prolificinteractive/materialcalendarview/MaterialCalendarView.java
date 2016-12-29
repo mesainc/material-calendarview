@@ -236,10 +236,10 @@ public class MaterialCalendarView extends ViewGroup {
     private int selectionMode = SELECTION_MODE_SINGLE;
     private boolean allowClickDaysOutsideCurrentMonth = true;
     private int firstDayOfWeek;
-
     private State state;
 
     private static int sSelectedFont;
+    private static int sSelectedHeaderFont;
 
 
     public MaterialCalendarView(Context context) {
@@ -248,6 +248,8 @@ public class MaterialCalendarView extends ViewGroup {
 
     public MaterialCalendarView(Context context, AttributeSet attrs) {
         super(context, attrs);
+
+        initFonts();
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
             //If we're on good Android versions, turn off clipping for cool effects
@@ -407,6 +409,11 @@ public class MaterialCalendarView extends ViewGroup {
         }
     }
 
+    private void initFonts(){
+        setCalendarFont(R.string.font_futura_std_medium);
+        setCalendarHeaderFont(R.string.font_futura_std_medium);
+    }
+
     private void setupChildren() {
         topbar = new LinearLayout(getContext());
         topbar.setOrientation(LinearLayout.HORIZONTAL);
@@ -418,6 +425,9 @@ public class MaterialCalendarView extends ViewGroup {
         topbar.addView(buttonPast, new LinearLayout.LayoutParams(0, LayoutParams.MATCH_PARENT, 1));
 
         title.setGravity(Gravity.CENTER);
+
+        FontUtils.setTypeFace(getSelectedHeaderFont(), title);
+
         topbar.addView(title, new LinearLayout.LayoutParams(
                 0, LayoutParams.MATCH_PARENT, DEFAULT_DAYS_IN_WEEK - 2
         ));
@@ -748,6 +758,9 @@ public class MaterialCalendarView extends ViewGroup {
         title.setTextAppearance(getContext(), resourceId);
     }
 
+    /**
+     * @param font The selected font asset used for the component
+     */
     public void setCalendarFont(int font) {
         sSelectedFont = font;
     }
@@ -755,6 +768,15 @@ public class MaterialCalendarView extends ViewGroup {
     public static int getSelectedFont() {
         return sSelectedFont;
     }
+
+    public void setCalendarHeaderFont(int font) {
+        sSelectedHeaderFont = font;
+    }
+
+    public static int getSelectedHeaderFont(){
+        return sSelectedHeaderFont;
+    }
+
 
     /**
      * @param resourceId The text appearance resource id.
@@ -1956,4 +1978,9 @@ public class MaterialCalendarView extends ViewGroup {
         invalidateDecorators();
         updateUi();
     }
+
+
+    // Interfaces
+    //...........
+
 }

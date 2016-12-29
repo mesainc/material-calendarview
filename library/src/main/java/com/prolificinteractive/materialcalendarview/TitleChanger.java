@@ -123,9 +123,11 @@ class TitleChanger {
         previousMonth = currentMonth;
     }
 
+    // Todo: Change font
     private void applyCustomFont(){
         FontUtils.setTypeFace(MaterialCalendarView.getSelectedFont(), title);
     }
+    //./Todo
 
     private void doTranslation(final TextView title, final int translate) {
         if (orientation == MaterialCalendarView.HORIZONTAL) {
