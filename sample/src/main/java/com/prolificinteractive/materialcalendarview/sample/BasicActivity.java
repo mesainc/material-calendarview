@@ -38,7 +38,6 @@ public class BasicActivity extends AppCompatActivity implements OnDateSelectedLi
         setContentView(R.layout.activity_basic);
         ButterKnife.bind(this);
 
-        widget.setCalendarFont(R.string.font_futura_std_bold);
         widget.setOnDateChangedListener(this);
         widget.setOnMonthChangedListener(this);
 
