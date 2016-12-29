@@ -10,9 +10,11 @@ import com.prolificinteractive.materialcalendarview.CalendarDay;
 import com.prolificinteractive.materialcalendarview.MaterialCalendarView;
 import com.prolificinteractive.materialcalendarview.OnDateSelectedListener;
 import com.prolificinteractive.materialcalendarview.OnMonthChangedListener;
+import com.prolificinteractive.materialcalendarview.utils.FontUtils;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
+import java.util.Date;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -36,11 +38,12 @@ public class BasicActivity extends AppCompatActivity implements OnDateSelectedLi
         setContentView(R.layout.activity_basic);
         ButterKnife.bind(this);
 
+        MaterialCalendarView.setCalendarFont(R.string.font_futura_std_bold);
         widget.setOnDateChangedListener(this);
         widget.setOnMonthChangedListener(this);
 
-        //Setup initial text
-        textView.setText(getSelectedDatesString());
+        FontUtils.initFontUtils(getAssets(), getResources());
+        FontUtils.setTypeFace(R.string.font_futura_std_bold, textView);
     }
 
     @Override

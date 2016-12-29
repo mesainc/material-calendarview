@@ -10,6 +10,10 @@ import com.prolificinteractive.materialcalendarview.R;
 
 public class CustomTextView extends TextView {
 
+    public CustomTextView(Context context) {
+        super(context);
+    }
+
     public CustomTextView(Context context, AttributeSet attrs) {
         super(context, attrs);
         applyCustomFont(context, attrs);

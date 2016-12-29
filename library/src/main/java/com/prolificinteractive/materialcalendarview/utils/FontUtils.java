@@ -4,6 +4,7 @@ import android.content.res.AssetManager;
 import android.content.res.Resources;
 import android.graphics.Typeface;
 import android.widget.CheckedTextView;
+import android.widget.TextView;
 
 import com.prolificinteractive.materialcalendarview.R;
 
@@ -25,6 +26,27 @@ public class FontUtils {
     }
 
     public static void setTypeFace(int fontName, CheckedTextView textView){
+        if (fontName == R.string.font_futura_std_book) {
+            textView.setTypeface(sTFFuturaStdBook);
+
+        } else if (fontName == R.string.font_futura_std_heavy) {
+            textView.setTypeface(sTFFuturaStdHeavy);
+
+        } else if (fontName == R.string.font_futura_std_light) {
+            textView.setTypeface(sTFFuturaStdLight);
+
+        } else if (fontName == R.string.font_futura_std_medium) {
+            textView.setTypeface(sTFFuturaStdMedium);
+
+        } else if (fontName == R.string.font_futura_std_bold) {
+            textView.setTypeface(sTFFuturaStdBold);
+
+        } else {
+            textView.setTypeface(sTFFuturaStdMedium);
+        }
+    }
+
+    public static void setTypeFace(int fontName, TextView textView){
         if (fontName == R.string.font_futura_std_book) {
             textView.setTypeface(sTFFuturaStdBook);
 

@@ -72,11 +72,6 @@ class DayView extends CheckedTextView {
         setText(getLabel());
     }
 
-    public void setFont(Context context, int font) {
-        FontUtils.initFontUtils(context.getAssets(), context.getResources());
-        FontUtils.setTypeFace(font, this);
-    }
-
     /**
      * Set the new label formatter and reformat the current label. This preserves current spans.
      *
