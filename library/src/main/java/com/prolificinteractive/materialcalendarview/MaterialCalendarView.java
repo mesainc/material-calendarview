@@ -748,7 +748,7 @@ public class MaterialCalendarView extends ViewGroup {
         title.setTextAppearance(getContext(), resourceId);
     }
 
-    public static void setCalendarFont(int font) {
+    public void setCalendarFont(int font) {
         sSelectedFont = font;
     }
 
