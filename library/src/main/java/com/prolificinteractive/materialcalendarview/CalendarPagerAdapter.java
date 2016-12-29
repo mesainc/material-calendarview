@@ -142,15 +142,19 @@ abstract class CalendarPagerAdapter<V extends CalendarPagerView> extends PagerAd
 
         pagerView.setWeekDayFormatter(weekDayFormatter);
         pagerView.setDayFormatter(dayFormatter);
+
         if (color != null) {
             pagerView.setSelectionColor(color);
         }
+
         if (dateTextAppearance != null) {
             pagerView.setDateTextAppearance(dateTextAppearance);
         }
+
         if (weekDayTextAppearance != null) {
             pagerView.setWeekDayTextAppearance(weekDayTextAppearance);
         }
+
         pagerView.setShowOtherDates(showOtherDates);
         pagerView.setMinimumDate(minDate);
         pagerView.setMaximumDate(maxDate);
@@ -160,6 +164,10 @@ abstract class CalendarPagerAdapter<V extends CalendarPagerView> extends PagerAd
         currentViews.add(pagerView);
 
         pagerView.setDayViewDecorators(decoratorResults);
+
+        if (MaterialCalendarView.getRenderingCallback() != null) {
+            MaterialCalendarView.getRenderingCallback().doneRenderingCalendar();
+        }
 
         return pagerView;
     }
@@ -320,4 +328,13 @@ abstract class CalendarPagerAdapter<V extends CalendarPagerView> extends PagerAd
     protected int getWeekDayTextAppearance() {
         return weekDayTextAppearance == null ? 0 : weekDayTextAppearance;
     }
+
+    public void applyCustomFont() {
+        for (CalendarPagerView views : currentViews) {
+            if (views != null) {
+                views.applyCustomFont();
+            }
+        }
+    }
+
 }

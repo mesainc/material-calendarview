@@ -10,6 +10,7 @@ import android.view.animation.Interpolator;
 import android.widget.TextView;
 
 import com.prolificinteractive.materialcalendarview.format.TitleFormatter;
+import com.prolificinteractive.materialcalendarview.utils.FontUtils;
 
 class TitleChanger {
 
@@ -59,6 +60,8 @@ class TitleChanger {
         }
 
         doChange(currentTime, currentMonth, true);
+
+        applyCustomFont();
     }
 
     private void doChange(final long now, final CalendarDay currentMonth, boolean animate) {
@@ -119,6 +122,12 @@ class TitleChanger {
 
         previousMonth = currentMonth;
     }
+
+    // Todo: Change font
+    private void applyCustomFont(){
+        FontUtils.setTypeFace(MaterialCalendarView.getSelectedFont(), title);
+    }
+    //./Todo
 
     private void doTranslation(final TextView title, final int translate) {
         if (orientation == MaterialCalendarView.HORIZONTAL) {

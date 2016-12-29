@@ -32,6 +32,7 @@ import com.prolificinteractive.materialcalendarview.format.DayFormatter;
 import com.prolificinteractive.materialcalendarview.format.MonthArrayTitleFormatter;
 import com.prolificinteractive.materialcalendarview.format.TitleFormatter;
 import com.prolificinteractive.materialcalendarview.format.WeekDayFormatter;
+import com.prolificinteractive.materialcalendarview.utils.FontUtils;
 
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
@@ -179,6 +180,7 @@ public class MaterialCalendarView extends ViewGroup {
     private CalendarDay currentMonth;
     private LinearLayout topbar;
     private CalendarMode calendarMode;
+
     /**
      * Used for the dynamic calendar height.
      */
@@ -223,7 +225,6 @@ public class MaterialCalendarView extends ViewGroup {
     private OnMonthChangedListener monthListener;
     private OnRangeSelectedListener rangeListener;
 
-
     CharSequence calendarContentDescription;
     private int accentColor = 0;
     private int arrowColor = Color.BLACK;
@@ -235,8 +236,12 @@ public class MaterialCalendarView extends ViewGroup {
     private int selectionMode = SELECTION_MODE_SINGLE;
     private boolean allowClickDaysOutsideCurrentMonth = true;
     private int firstDayOfWeek;
-
     private State state;
+
+    private static int sSelectedFont;
+    private static int sSelectedHeaderFont;
+    private static CallbackDoneRendering sCallback;
+
 
     public MaterialCalendarView(Context context) {
         this(context, null);
@@ -244,6 +249,8 @@ public class MaterialCalendarView extends ViewGroup {
 
     public MaterialCalendarView(Context context, AttributeSet attrs) {
         super(context, attrs);
+
+        initFonts();
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
             //If we're on good Android versions, turn off clipping for cool effects
@@ -257,7 +264,9 @@ public class MaterialCalendarView extends ViewGroup {
 
         buttonPast = new DirectionButton(getContext());
         buttonPast.setContentDescription(getContext().getString(R.string.previous));
+
         title = new TextView(getContext());
+
         buttonFuture = new DirectionButton(getContext());
         buttonFuture.setContentDescription(getContext().getString(R.string.next));
         pager = new CalendarPager(getContext());
@@ -310,12 +319,12 @@ public class MaterialCalendarView extends ViewGroup {
             }
 
             final int tileWidth = a.getLayoutDimension(R.styleable.MaterialCalendarView_mcv_tileWidth, INVALID_TILE_DIMENSION);
-            if(tileWidth > INVALID_TILE_DIMENSION){
+            if (tileWidth > INVALID_TILE_DIMENSION) {
                 setTileWidth(tileWidth);
             }
 
             final int tileHeight = a.getLayoutDimension(R.styleable.MaterialCalendarView_mcv_tileHeight, INVALID_TILE_DIMENSION);
-            if(tileHeight > INVALID_TILE_DIMENSION){
+            if (tileHeight > INVALID_TILE_DIMENSION) {
                 setTileHeight(tileHeight);
             }
 
@@ -401,6 +410,11 @@ public class MaterialCalendarView extends ViewGroup {
         }
     }
 
+    private void initFonts() {
+        setCalendarFont(R.string.font_futura_std_medium);
+        setCalendarHeaderFont(R.string.font_futura_std_medium);
+    }
+
     private void setupChildren() {
         topbar = new LinearLayout(getContext());
         topbar.setOrientation(LinearLayout.HORIZONTAL);
@@ -412,6 +426,9 @@ public class MaterialCalendarView extends ViewGroup {
         topbar.addView(buttonPast, new LinearLayout.LayoutParams(0, LayoutParams.MATCH_PARENT, 1));
 
         title.setGravity(Gravity.CENTER);
+
+        FontUtils.setTypeFace(getSelectedHeaderFont(), title);
+
         topbar.addView(title, new LinearLayout.LayoutParams(
                 0, LayoutParams.MATCH_PARENT, DEFAULT_DAYS_IN_WEEK - 2
         ));
@@ -600,8 +617,6 @@ public class MaterialCalendarView extends ViewGroup {
     }
 
     /**
-     * TODO should this be public?
-     *
      * @return true if there is a future month that can be shown
      */
     public boolean canGoForward() {
@@ -620,8 +635,6 @@ public class MaterialCalendarView extends ViewGroup {
     }
 
     /**
-     * TODO should this be public?
-     *
      * @return true if there is a previous month that can be shown
      */
     public boolean canGoBack() {
@@ -649,6 +662,10 @@ public class MaterialCalendarView extends ViewGroup {
         accentColor = color;
         adapter.setSelectionColor(color);
         invalidate();
+    }
+
+    public void applyCustomFont() {
+        adapter.applyCustomFont();
     }
 
     /**
@@ -745,6 +762,26 @@ public class MaterialCalendarView extends ViewGroup {
     public void setHeaderTextAppearance(int resourceId) {
         title.setTextAppearance(getContext(), resourceId);
     }
+
+    /**
+     * @param font The selected font asset used for the component
+     */
+    public void setCalendarFont(int font) {
+        sSelectedFont = font;
+    }
+
+    public static int getSelectedFont() {
+        return sSelectedFont;
+    }
+
+    public void setCalendarHeaderFont(int font) {
+        sSelectedHeaderFont = font;
+    }
+
+    public static int getSelectedHeaderFont() {
+        return sSelectedHeaderFont;
+    }
+
 
     /**
      * @param resourceId The text appearance resource id.
@@ -1474,8 +1511,8 @@ public class MaterialCalendarView extends ViewGroup {
         final int selectedMonth = selectedDate.getMonth();
 
         if (calendarMode == CalendarMode.MONTHS
-            && allowClickDaysOutsideCurrentMonth
-            && currentMonth != selectedMonth) {
+                && allowClickDaysOutsideCurrentMonth
+                && currentMonth != selectedMonth) {
             if (currentDate.isAfter(selectedDate)) {
                 goToPrevious();
             } else if (currentDate.isBefore(selectedDate)) {
@@ -1946,4 +1983,13 @@ public class MaterialCalendarView extends ViewGroup {
         invalidateDecorators();
         updateUi();
     }
+
+    public static void setRenderingCallback(CallbackDoneRendering callback) {
+        sCallback = callback;
+    }
+
+    public static CallbackDoneRendering getRenderingCallback() {
+        return sCallback;
+    }
+
 }

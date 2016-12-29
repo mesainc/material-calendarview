@@ -3,4 +3,13 @@
     <string name="previous">Go to previous</string>
     <string name="next">Go to next</string>
     <string name="calendar">Calendar</string>
+
+    <!-- Fonts -->
+    <string name="font_futura_std_book">fonts/futura_std_book.otf</string>
+    <string name="font_futura_std_heavy">fonts/futura_std_heavy.otf</string>
+    <string name="font_futura_std_light">fonts/futura_std_light.otf</string>
+    <string name="font_futura_std_medium">fonts/futura_std_medium.otf</string>
+    <string name="font_futura_std_bold">fonts/futura_std_bold.ttf</string>
+    <string name="title_activity_base">BaseActivity</string>
+
 </resources>
