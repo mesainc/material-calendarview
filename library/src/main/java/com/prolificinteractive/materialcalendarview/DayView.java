@@ -65,14 +65,16 @@ class DayView extends CheckedTextView {
         }
 
         setDay(day);
-
-        FontUtils.initFontUtils(context.getAssets(), context.getResources());
-        FontUtils.setTypeFace(R.string.font_futura_std_bold, this);
     }
 
     public void setDay(CalendarDay date) {
         this.date = date;
         setText(getLabel());
+    }
+
+    public void setFont(Context context, int font) {
+        FontUtils.initFontUtils(context.getAssets(), context.getResources());
+        FontUtils.setTypeFace(font, this);
     }
 
     /**
