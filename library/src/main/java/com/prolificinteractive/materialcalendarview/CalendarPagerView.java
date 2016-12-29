@@ -189,12 +189,12 @@ abstract class CalendarPagerView extends ViewGroup implements View.OnClickListen
 
     private void applyCustomFont(DayView view){
         FontUtils.initFontUtils(getContext().getAssets(), getContext().getResources());
-        FontUtils.setTypeFace(R.string.font_futura_std_bold, view);
+        FontUtils.setTypeFace(MaterialCalendarView.getSelectedFont(), view);
     }
 
     private void applyCustomFont(WeekDayView view){
         FontUtils.initFontUtils(getContext().getAssets(), getContext().getResources());
-        FontUtils.setTypeFace(R.string.font_futura_std_bold, view);
+        FontUtils.setTypeFace(MaterialCalendarView.getSelectedFont(), view);
     }
 
     protected void invalidateDecorators() {
