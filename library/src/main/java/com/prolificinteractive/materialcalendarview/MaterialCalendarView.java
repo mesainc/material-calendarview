@@ -240,6 +240,7 @@ public class MaterialCalendarView extends ViewGroup {
 
     private static int sSelectedFont;
     private static int sSelectedHeaderFont;
+    private static CallbackDoneRendering sCallback;
 
 
     public MaterialCalendarView(Context context) {
@@ -409,7 +410,7 @@ public class MaterialCalendarView extends ViewGroup {
         }
     }
 
-    private void initFonts(){
+    private void initFonts() {
         setCalendarFont(R.string.font_futura_std_medium);
         setCalendarHeaderFont(R.string.font_futura_std_medium);
     }
@@ -663,6 +664,10 @@ public class MaterialCalendarView extends ViewGroup {
         invalidate();
     }
 
+    public void applyCustomFont() {
+        adapter.applyCustomFont();
+    }
+
     /**
      * @return color used to draw arrows
      */
@@ -773,7 +778,7 @@ public class MaterialCalendarView extends ViewGroup {
         sSelectedHeaderFont = font;
     }
 
-    public static int getSelectedHeaderFont(){
+    public static int getSelectedHeaderFont() {
         return sSelectedHeaderFont;
     }
 
@@ -1979,8 +1984,12 @@ public class MaterialCalendarView extends ViewGroup {
         updateUi();
     }
 
+    public static void setRenderingCallback(CallbackDoneRendering callback) {
+        sCallback = callback;
+    }
 
-    // Interfaces
-    //...........
+    public static CallbackDoneRendering getRenderingCallback() {
+        return sCallback;
+    }
 
 }

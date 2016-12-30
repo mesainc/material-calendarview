@@ -2,7 +2,6 @@ package com.prolificinteractive.materialcalendarview;
 
 import android.support.annotation.NonNull;
 import android.support.v4.view.PagerAdapter;
-import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 
@@ -166,6 +165,10 @@ abstract class CalendarPagerAdapter<V extends CalendarPagerView> extends PagerAd
 
         pagerView.setDayViewDecorators(decoratorResults);
 
+        if (MaterialCalendarView.getRenderingCallback() != null) {
+            MaterialCalendarView.getRenderingCallback().doneRenderingCalendar();
+        }
+
         return pagerView;
     }
 
@@ -325,4 +328,13 @@ abstract class CalendarPagerAdapter<V extends CalendarPagerView> extends PagerAd
     protected int getWeekDayTextAppearance() {
         return weekDayTextAppearance == null ? 0 : weekDayTextAppearance;
     }
+
+    public void applyCustomFont() {
+        for (CalendarPagerView views : currentViews) {
+            if (views != null) {
+                views.applyCustomFont();
+            }
+        }
+    }
+
 }
